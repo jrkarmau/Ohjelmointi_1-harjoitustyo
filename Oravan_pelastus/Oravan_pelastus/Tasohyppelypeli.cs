@@ -11,11 +11,7 @@ public class Oravan_pelastus : PhysicsGame
     private const double HYPPYNOPEUS = 750;
     private const int RUUDUN_KOKO = 30;
     private PlatformCharacter orava;
-    private Image oravanKuva = LoadImage("squirrel.png");
-    private Image pahkinanKuva = LoadImage("pahkina.png");
-    private Image korpinKuva = LoadImage("raven");
-    private Image muurahaisenKuva = LoadImage("ant");
-    private SoundEffect maaliAani = LoadSoundEffect("maali.wav");
+
 
 
     public override void Begin()
@@ -25,6 +21,8 @@ public class Oravan_pelastus : PhysicsGame
         Camera.Follow(orava);
         Camera.ZoomFactor = 1.2;
         Camera.StayInLevel = true;
+        MediaPlayer.Play("taustamusiikki");
+        MediaPlayer.IsRepeating = true;
     }
 
 
@@ -32,72 +30,132 @@ public class Oravan_pelastus : PhysicsGame
     {
         Gravity = new Vector(0, -1000);
         TileMap kentta = TileMap.FromLevelAsset("kentta.txt");
-        kentta.SetTileMethod('#', LisaaTaso);
-        kentta.SetTileMethod('a', LisaaTaso);
-        kentta.SetTileMethod('b', LisaaTaso);
-        kentta.SetTileMethod('c', LisaaTaso);
-        kentta.SetTileMethod('@', LisaaTaso);
-        kentta.SetTileMethod('d', LisaaTaso);
-        kentta.SetTileMethod('t', LisaaTaso);
-        kentta.SetTileMethod('*', LisaaPahkina);
+        kentta.SetTileMethod('#', LisaaTaso, "#");
+        kentta.SetTileMethod('a', LisaaTaso, "a");
+        kentta.SetTileMethod('b', LisaaTaso, "b");
+        kentta.SetTileMethod('c', LisaaTaso, "c");
+        kentta.SetTileMethod('@', LisaaTaso, "@");
+        kentta.SetTileMethod('d', LisaaTaso, "d");
+        kentta.SetTileMethod('t', LisaaTaso, "t");
+        kentta.SetTileMethod('p', LisaaPahkina);
         kentta.SetTileMethod('o', LisaaOrava);
         kentta.SetTileMethod('k', LisaaKorppi);
+        kentta.SetTileMethod('s', LisaaSeuraajaKorppi);
         kentta.SetTileMethod('m', LisaaMuurahainen);
+        kentta.Optimize('a','b','c','@','t','d');
+
+
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
-        Level.CreateBorders();
-        Level.Background.CreateGradient(Color.White, Color.SkyBlue);
+        Level.Background.Image = LoadImage("tausta");
+        DoNextUpdate(() => { Level.Background.ScaleToLevelFull(); });
+
+        //Level.CreateBorders();
+        //Level.Background.CreateGradient(Color.White, Color.SkyBlue);
     }
 
-    private void LisaaMuurahainen(Vector paikka, double leveys, double korkeus)
-    {
-        PhysicsObject muurahainen = new PhysicsObject(leveys, korkeus);
-        muurahainen.Position = paikka;
-        muurahainen.Mass = 4.0;
-        muurahainen.Image = muurahaisenKuva;
-        muurahainen.Tag = "muurahainen";
-        Add(muurahainen);
-    }
 
-    private void LisaaKorppi(Vector paikka, double leveys, double korkeus)
-    {
-        PhysicsObject korppi = new PhysicsObject (leveys, korkeus);
-        korppi.Position = paikka;
-        korppi.Mass = 4.0;
-        korppi.Image = korpinKuva;
-        korppi.Tag = "korppi";
-        Add(korppi);
-    }
-
-    private void LisaaTaso(Vector paikkaKentalla, double leveys, double korkeus)
+    private void LisaaTaso(Vector paikkaKentalla, double leveys, double korkeus, string kirjain)
     {
         PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
         taso.Position = paikkaKentalla;
-        taso.Image = LoadImage("a");
+        taso.Image = LoadImage(kirjain);
+        taso.CollisionIgnoreGroup = 1;
         Add(taso);
     }
 
+
+    private void LisaaMuurahainen(Vector paikka, double leveys, double korkeus)
+    {
+        PlatformCharacter muurahainen = new PlatformCharacter(leveys, korkeus);
+        muurahainen.Shape = Shape.Ellipse;
+        muurahainen.CanRotate = false;
+        muurahainen.Position = paikka;
+        muurahainen.Mass = 4.0;
+        muurahainen.Image = LoadImage("ant");
+        muurahainen.Tag = "vihollinen";
+
+        PlatformWandererBrain tasoAivot = new PlatformWandererBrain();
+        tasoAivot.Speed = 150;
+        muurahainen.Brain = tasoAivot;
+
+
+        Add(muurahainen);
+
+    }
+
+
+    private void LisaaKorppi(Vector paikka, double leveys, double korkeus)
+    {
+        PhysicsObject korppi = new PhysicsObject(leveys, korkeus);
+        korppi.Shape = Shape.Circle;
+        korppi.Position = paikka;
+        korppi.Mass = 4.0;
+        korppi.Image = LoadImage("raven");
+        korppi.Tag = "vihollinen";
+
+        RandomMoverBrain satunnaisAivot = new RandomMoverBrain(200);
+        satunnaisAivot.ChangeMovementSeconds = 2;
+        korppi.Brain = satunnaisAivot;
+        satunnaisAivot.TurnWhileMoving = true;
+        satunnaisAivot.Active = true;
+        satunnaisAivot.WanderRadius = 200;
+
+
+        Add(korppi);
+    }
+
+
+    private void LisaaSeuraajaKorppi(Vector paikka, double leveys, double korkeus)
+    {
+        PhysicsObject seuraajaKorppi = new PhysicsObject(leveys, korkeus);
+        seuraajaKorppi.Shape = Shape.Circle;
+        seuraajaKorppi.Position = paikka;
+        seuraajaKorppi.Mass = 4.0;
+        seuraajaKorppi.Image = LoadImage("Follower_raven");
+        seuraajaKorppi.Tag = "vihollinen";
+
+        FollowerBrain seuraajanAivot = new FollowerBrain(orava);
+        seuraajaKorppi.Brain = seuraajanAivot;
+        seuraajanAivot.Speed = 120;
+        seuraajanAivot.DistanceFar = 400;
+        seuraajanAivot.TurnWhileMoving = true;
+        seuraajanAivot.Active = true;
+        seuraajanAivot.DistanceToTarget.AddTrigger(200, TriggerDirection.Down, LahestymisAani);
+
+        Add(seuraajaKorppi);
+    }
+
+        
     private void LisaaPahkina(Vector paikka, double leveys, double korkeus)
     {
         PhysicsObject pahkina = PhysicsObject.CreateStaticObject(leveys, korkeus);
+        pahkina.Shape = Shape.Circle;
         pahkina.IgnoresCollisionResponse = true;
         pahkina.Position = paikka;
-        pahkina.Image = pahkinanKuva;
+        pahkina.Image = LoadImage("pahkina.png");
         pahkina.Tag = "pahkina";
         Add(pahkina);
     }
 
+    
     private void LisaaOrava(Vector paikka, double leveys, double korkeus)
     {
         orava = new PlatformCharacter(leveys, korkeus);
+        orava.Shape = Shape.Circle;
         orava.Position = paikka;
         orava.Mass = 4.0;
-        orava.Image = oravanKuva;
+        orava.Image = LoadImage("squirrel.png");
         AddCollisionHandler(orava, "pahkina", TormaaPahkinaan);
-        AddCollisionHandler(orava, "korppi", TormaaKorppiin);
-        AddCollisionHandler(orava, "muurahainen", TormaaMuurahaiseen);
+        AddCollisionHandler(orava, "vihollinen", TormaaViholliseen);
+
         Add(orava);
     }
 
+
+    private void TormaaViholliseen(IPhysicsObject collidingObject, IPhysicsObject otherObject)
+    {
+        MessageDisplay.Add("Törmäsit viholliseen!");
+    }
 
 
     private void LisaaNappaimet()
@@ -116,30 +174,32 @@ public class Oravan_pelastus : PhysicsGame
         //PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
     }
 
+
     private void Liikuta(PlatformCharacter orava, double nopeus)
     {
         orava.Walk(nopeus);
     }
+
 
     private void Hyppaa(PlatformCharacter orava, double nopeus)
     {
         orava.Jump(nopeus);
     }
 
+
     private void TormaaPahkinaan(PhysicsObject hahmo, PhysicsObject pahkina)
     {
-        maaliAani.Play();
+        SoundEffect kerays = LoadSoundEffect("collect1.wav");
+        kerays.Play();
         MessageDisplay.Add("Keräsit pähkinän!");
         pahkina.Destroy();
     }
 
-    private void TormaaMuurahaiseen(IPhysicsObject collidingObject, IPhysicsObject otherObject)
+    
+    private void LahestymisAani()
     {
-        throw new NotImplementedException();
+        
     }
 
-    private void TormaaKorppiin(IPhysicsObject collidingObject, IPhysicsObject otherObject)
-    {
-        throw new NotImplementedException();
-    }
+
 }
