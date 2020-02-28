@@ -35,17 +35,14 @@ public class Oravan_pelastus : PhysicsGame
         kentta.SetTileMethod('b', LisaaTaso, "b");
         kentta.SetTileMethod('c', LisaaTaso, "c");
         kentta.SetTileMethod('@', LisaaTaso, "@");
-        kentta.SetTileMethod('d', LisaaTaso, "d");
         kentta.SetTileMethod('t', LisaaTaso, "t");
         kentta.SetTileMethod('p', LisaaPahkina);
         kentta.SetTileMethod('o', LisaaOrava);
         kentta.SetTileMethod('k', LisaaKorppi);
         kentta.SetTileMethod('s', LisaaSeuraajaKorppi);
         kentta.SetTileMethod('m', LisaaMuurahainen);
-        kentta.SetTileMethod('s', lisaaPesa);
-        kentta.Optimize('a','b','c', '@','t','d', 's' );
-
-
+        kentta.SetTileMethod('g', lisaaPesa);
+        kentta.Optimize('a','b','c', '@','t', 'g' );
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
         Level.Background.Image = LoadImage("tausta");
         DoNextUpdate(() => { Level.Background.ScaleToLevelFull(); });
@@ -58,7 +55,7 @@ public class Oravan_pelastus : PhysicsGame
     {
         PhysicsObject pesa = PhysicsObject.CreateStaticObject(leveys, korkeus);
         pesa.Position = paikka;
-        pesa.Image = LoadImage("p");
+        pesa.Image = LoadImage("g");
         pesa.Tag = "pesa";
         pesa.CollisionIgnoreGroup = 1;
         Add(pesa);
@@ -87,7 +84,6 @@ public class Oravan_pelastus : PhysicsGame
         tasoAivot.Speed = 150;
         muurahainen.Brain = tasoAivot;
         Add(muurahainen);
-
     }
 
 
