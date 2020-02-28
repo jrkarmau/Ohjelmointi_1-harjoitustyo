@@ -42,8 +42,8 @@ public class Oravan_pelastus : PhysicsGame
         kentta.SetTileMethod('k', LisaaKorppi);
         kentta.SetTileMethod('s', LisaaSeuraajaKorppi);
         kentta.SetTileMethod('m', LisaaMuurahainen);
-        kentta.SetTileMethod('p', lisaaPesa);
-        kentta.Optimize('a','b','c', '@','t','d');
+        kentta.SetTileMethod('s', lisaaPesa);
+        kentta.Optimize('a','b','c', '@','t','d', 's' );
 
 
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
@@ -56,9 +56,12 @@ public class Oravan_pelastus : PhysicsGame
 
     private void lisaaPesa(Vector paikka, double leveys, double korkeus)
     {
-        PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
-        taso.Position = paikka;
-        taso.Image = LoadImage("p");
+        PhysicsObject pesa = PhysicsObject.CreateStaticObject(leveys, korkeus);
+        pesa.Position = paikka;
+        pesa.Image = LoadImage("p");
+        pesa.Tag = "pesa";
+        pesa.CollisionIgnoreGroup = 1;
+        Add(pesa);
     }
 
     private void LisaaTaso(Vector paikkaKentalla, double leveys, double korkeus, string kirjain)
@@ -80,12 +83,9 @@ public class Oravan_pelastus : PhysicsGame
         muurahainen.Mass = 4.0;
         muurahainen.Image = LoadImage("ant");
         muurahainen.Tag = "vihollinen";
-
         PlatformWandererBrain tasoAivot = new PlatformWandererBrain();
         tasoAivot.Speed = 150;
         muurahainen.Brain = tasoAivot;
-
-
         Add(muurahainen);
 
     }
@@ -99,9 +99,8 @@ public class Oravan_pelastus : PhysicsGame
         korppi.Mass = 4.0;
         korppi.Image = LoadImage("raven");
         korppi.Tag = "vihollinen";
-
         RandomMoverBrain satunnaisAivot = new RandomMoverBrain(200);
-        satunnaisAivot.ChangeMovementSeconds = 2;
+        satunnaisAivot.ChangeMovementSeconds = 3;
         korppi.Brain = satunnaisAivot;
         satunnaisAivot.TurnWhileMoving = true;
         satunnaisAivot.Active = true;
@@ -120,7 +119,6 @@ public class Oravan_pelastus : PhysicsGame
         seuraajaKorppi.Mass = 4.0;
         seuraajaKorppi.Image = LoadImage("Follower_raven");
         seuraajaKorppi.Tag = "vihollinen";
-
         FollowerBrain seuraajanAivot = new FollowerBrain(orava);
         seuraajaKorppi.Brain = seuraajanAivot;
         seuraajanAivot.Speed = 120;
@@ -128,7 +126,6 @@ public class Oravan_pelastus : PhysicsGame
         seuraajanAivot.TurnWhileMoving = true;
         seuraajanAivot.Active = true;
         seuraajanAivot.DistanceToTarget.AddTrigger(200, TriggerDirection.Down, LahestymisAani);
-
         Add(seuraajaKorppi);
     }
 
@@ -137,8 +134,8 @@ public class Oravan_pelastus : PhysicsGame
     {
         PhysicsObject pahkina = PhysicsObject.CreateStaticObject(leveys, korkeus);
         pahkina.Shape = Shape.Circle;
-        pahkina.IgnoresCollisionResponse = true;
         pahkina.Position = paikka;
+        pahkina.Mass = 4.0;
         pahkina.Image = LoadImage("pahkina.png");
         pahkina.Tag = "pahkina";
         Add(pahkina);
@@ -154,7 +151,6 @@ public class Oravan_pelastus : PhysicsGame
         orava.Image = LoadImage("squirrel.png");
         AddCollisionHandler(orava, "pahkina", TormaaPahkinaan);
         AddCollisionHandler(orava, "vihollinen", TormaaViholliseen);
-
         Add(orava);
     }
 
@@ -169,16 +165,9 @@ public class Oravan_pelastus : PhysicsGame
     {
         Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
-
         Keyboard.Listen(Key.Left, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", orava, -NOPEUS);
         Keyboard.Listen(Key.Right, ButtonState.Down, Liikuta, "Liikkuu oikealle", orava, NOPEUS);
         Keyboard.Listen(Key.Up, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", orava, HYPPYNOPEUS);
-
-        //ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu pelistä");
-        //ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Liikuta, "Pelaaja liikkuu vasemmalle", orava, -NOPEUS);
-        //ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Liikuta, "Pelaaja liikkuu oikealle", orava, NOPEUS);
-        //ControllerOne.Listen(Button.A, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", orava, HYPPYNOPEUS);
-        //PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
     }
 
 
