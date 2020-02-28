@@ -42,7 +42,7 @@ public class Oravan_pelastus : PhysicsGame
         kentta.SetTileMethod('k', LisaaKorppi);
         kentta.SetTileMethod('s', LisaaSeuraajaKorppi);
         kentta.SetTileMethod('m', LisaaMuurahainen);
-        kentta.Optimize('a','b','c','@','t','d');
+        kentta.Optimize('a','b','c', '@','t','d');
 
 
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
@@ -198,7 +198,8 @@ public class Oravan_pelastus : PhysicsGame
     
     private void LahestymisAani()
     {
-        
+        SoundEffect seuraajanAani = LoadSoundEffect("seuraajanMusiikki.wav");
+        seuraajanAani.Play();
     }
 
 
