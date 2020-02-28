@@ -44,6 +44,9 @@
     <None Update="Content\Follower_raven.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\g.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\kentta.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

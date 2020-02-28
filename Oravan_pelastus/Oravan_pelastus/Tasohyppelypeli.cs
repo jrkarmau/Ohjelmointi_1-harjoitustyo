@@ -118,10 +118,10 @@ public class Oravan_pelastus : PhysicsGame
         FollowerBrain seuraajanAivot = new FollowerBrain(orava);
         seuraajaKorppi.Brain = seuraajanAivot;
         seuraajanAivot.Speed = 120;
-        seuraajanAivot.DistanceFar = 400;
+        seuraajanAivot.DistanceFar = 200;
         seuraajanAivot.TurnWhileMoving = true;
         seuraajanAivot.Active = true;
-        seuraajanAivot.DistanceToTarget.AddTrigger(200, TriggerDirection.Down, LahestymisAani);
+        seuraajanAivot.DistanceToTarget.AddTrigger(100, TriggerDirection.Down, LahestymisAani);
         Add(seuraajaKorppi);
     }
 
@@ -131,7 +131,7 @@ public class Oravan_pelastus : PhysicsGame
         PhysicsObject pahkina = PhysicsObject.CreateStaticObject(leveys, korkeus);
         pahkina.Shape = Shape.Circle;
         pahkina.Position = paikka;
-        pahkina.Mass = 4.0;
+        pahkina.Mass = 8.0;
         pahkina.Image = LoadImage("pahkina.png");
         pahkina.Tag = "pahkina";
         Add(pahkina);
@@ -189,7 +189,7 @@ public class Oravan_pelastus : PhysicsGame
 
     
     private void LahestymisAani()
-    {
+    {       
         SoundEffect seuraajanAani = LoadSoundEffect("seuraajanMusiikki.wav");
         seuraajanAani.Play();
     }
