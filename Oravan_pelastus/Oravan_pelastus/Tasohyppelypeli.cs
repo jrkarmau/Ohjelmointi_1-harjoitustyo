@@ -42,6 +42,7 @@ public class Oravan_pelastus : PhysicsGame
         kentta.SetTileMethod('k', LisaaKorppi);
         kentta.SetTileMethod('s', LisaaSeuraajaKorppi);
         kentta.SetTileMethod('m', LisaaMuurahainen);
+        kentta.SetTileMethod('p', lisaaPesa);
         kentta.Optimize('a','b','c', '@','t','d');
 
 
@@ -53,6 +54,12 @@ public class Oravan_pelastus : PhysicsGame
         //Level.Background.CreateGradient(Color.White, Color.SkyBlue);
     }
 
+    private void lisaaPesa(Vector paikka, double leveys, double korkeus)
+    {
+        PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
+        taso.Position = paikka;
+        taso.Image = LoadImage("p");
+    }
 
     private void LisaaTaso(Vector paikkaKentalla, double leveys, double korkeus, string kirjain)
     {
