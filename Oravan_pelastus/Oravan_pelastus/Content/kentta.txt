@@ -190,9 +190,9 @@
 @     aaaaaaaaaaaaaaa                              @
 @aaa                             aa         k      @
 @        s    aaa          aaa                     @
-@                       m               p p        @
-@  aa     aaa         aaaaaaaaaaaaaa    p p        @
+@                       m               ss         @
+@  aa     aaa         aaaaaaaaaaaaaa    ss         @
 @      p        aaa                    aaaa        @
-@      aaa              aa           bbbbbb    @
+@      aaa              aa           bbbbbb        @
 @  m                 o               cccccccc      @
 ####################################################
