@@ -32,12 +32,12 @@ public class Oravan_pelastus : PhysicsGame
         char[] tasot = { '#', 'a', 'b', 'c', '@', 't' };
         for (int i = 0; i < tasot.Length; i++)
             { kentta.SetTileMethod(tasot[i], LisaaTaso, tasot[i]); }
-        kentta.SetTileMethod('p', Pahkina);
-        kentta.SetTileMethod('o', Orava);
-        kentta.SetTileMethod('k', Korppi);
-        kentta.SetTileMethod('s', Lepakko);
-        kentta.SetTileMethod('m', Muurahainen);
-        kentta.SetTileMethod('g', LinnunPesa);
+        kentta.SetTileMethod('p', LuoKorppi);
+        kentta.SetTileMethod('p', LuoPahkina);
+        kentta.SetTileMethod('o', LuoOrava);
+        kentta.SetTileMethod('s', LuoLepakko);
+        kentta.SetTileMethod('m', LuoMuurahainen);
+        kentta.SetTileMethod('g', LuoLinnunPesa);
         kentta.Optimize('a','b','c', '@','t', 'g' );
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
         Level.Background.Image = LoadImage("tausta");
@@ -55,7 +55,7 @@ public class Oravan_pelastus : PhysicsGame
     }
 
 
-    private void LinnunPesa(Vector paikka, double leveys, double korkeus)
+    private void LuoLinnunPesa(Vector paikka, double leveys, double korkeus)
     {
         PhysicsObject pesa = PhysicsObject.CreateStaticObject(leveys, korkeus);
         pesa.Position = paikka;
@@ -66,7 +66,7 @@ public class Oravan_pelastus : PhysicsGame
     }
 
     
-    private void Muurahainen(Vector paikka, double leveys, double korkeus)
+    private void LuoMuurahainen(Vector paikka, double leveys, double korkeus)
     {
         PlatformCharacter muurahainen = new PlatformCharacter (leveys, korkeus)
         {
@@ -84,7 +84,7 @@ public class Oravan_pelastus : PhysicsGame
     }
     
 
-    private void Korppi(Vector paikka, double leveys, double korkeus)
+    private void LuoKorppi(Vector paikka, double leveys, double korkeus)
     {
         PhysicsObject korppi = new PhysicsObject(leveys, korkeus)
         {
@@ -104,7 +104,7 @@ public class Oravan_pelastus : PhysicsGame
     }
 
 
-    private void Lepakko(Vector paikka, double leveys, double korkeus)
+    private void LuoLepakko(Vector paikka, double leveys, double korkeus)
     {
         PhysicsObject lepakko = new PhysicsObject(leveys, korkeus)
         {
@@ -130,7 +130,7 @@ public class Oravan_pelastus : PhysicsGame
     }
 
         
-    private void Pahkina(Vector paikka, double leveys, double korkeus)
+    private void LuoPahkina(Vector paikka, double leveys, double korkeus)
     {
         PhysicsObject pahkina = PhysicsObject.CreateStaticObject(leveys, korkeus);
         pahkina.Shape = Shape.Circle;
@@ -141,7 +141,7 @@ public class Oravan_pelastus : PhysicsGame
     }
 
     
-    private void Orava(Vector paikka, double leveys, double korkeus)
+    private void LuoOrava(Vector paikka, double leveys, double korkeus)
     {
         orava = new PlatformCharacter(leveys, korkeus)
         {
@@ -162,7 +162,7 @@ public class Oravan_pelastus : PhysicsGame
     }
     
 
-    private void Osuma(PhysicsObject ammus, IPhysicsObject kohde)
+    private void Osuma(PhysicsObject ammus, PhysicsObject kohde)
     {
         ammus.Destroy();
         Explosion rajahdys = new Explosion(50);
