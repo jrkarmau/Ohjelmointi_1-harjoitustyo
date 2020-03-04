@@ -97,12 +97,12 @@
 @   p         m                     bbb            @
 @bbbbbbbbbbbbbbbbbbbbbbbbbbbbb                     @
 @                                            bbbbbb@
-@         bbb    k                bbb              @
+@         bbb                     bbb              @
 @                     bbb                k         @
 @                                p           aaaaaa@
 @  k     bbbbbbbbbb           bbbbb                @
 @                                                  @
-@              k       bb        k     bb          @
+@              k       bb              bb          @
 @bbbb                                        bbbbbb@
 @           bbbbb             bbbb                 @
 @                          p                       @
@@ -123,7 +123,7 @@
 @   k                bbbbbbbbb            aaaaaaaaa@
 @           bbb                                    @
 @bbbbbb                           bbb              @
-@                   aaaa     k              m      @
+@                   aaaa                    m      @
 @        aaaaa                           bbbbbbbbbb@
 @                 p         aaaaaaa                @
 @        k       bbbbbbb                           @
@@ -137,7 +137,7 @@
 @aaaa                                              @
 @           aaa                 p            p     @
 @  p            aaaa         aaaaaa      aaaaa     @
-@aaaaaa     k                                      @
+@aaaaaa                                            @
 @                                                  @
 @                 aaaaa          aaa       m       @
 @aa       aa                              aaaaaaaaa@
@@ -190,7 +190,7 @@
 @     aaaaaaaaaaaaaaa                              @
 @aaa                             aa         k    aa@
 @        s    aaa          aaa       aaa           @
-@                       m                    aaaaaa@
+@                                            aaaaaa@
 @  aa     aaa         aaaaaaaaaaaaaa               @
 @      p        aaa                                @
 @      aaa              aa     aa       aaaa       @

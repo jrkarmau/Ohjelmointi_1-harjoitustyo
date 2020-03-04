@@ -157,6 +157,7 @@ public class Oravan_pelastus : PhysicsGame
         orava.Weapon.Ammo.Value = 3;
         orava.Weapon.Power.Value = 100;
         orava.Weapon.Image = LoadImage("tyhja_ase");
+        orava.CollisionIgnoreGroup = 2;
         orava.Weapon.ProjectileCollision = Osuma;
     }
     
