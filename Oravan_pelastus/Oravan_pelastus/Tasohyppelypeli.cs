@@ -17,10 +17,16 @@ public class Oravan_pelastus : PhysicsGame
 
     public override void Begin()
     {
-        ClearAll();
         Alkuvalikko();
     }
 
+    private void Aloita()
+    {
+        LuoKentta();
+        LisaaNappaimet();
+        LuoKamera();
+        PähkinäLaskuri();
+    }
     /// <summary>
     /// alkuvalikko, josta voidaan aloittaa tai lopettaa peli.
     /// </summary>
@@ -29,25 +35,16 @@ public class Oravan_pelastus : PhysicsGame
         Level.Background.Image = LoadImage("tausta");
         Level.Background.ScaleToLevelFull();
         MultiSelectWindow valikko = new MultiSelectWindow("",
-            "Aloita uusi peli", "Lopeta");
+            "Aloita uusi peli", "Parhaat pisteet", "Lopeta");
         valikko.Color = Color.JungleGreen;
         Add(valikko);
-        valikko.AddItemHandler(0, AloitaPeli);
-        valikko.AddItemHandler(1, Exit);
+        valikko.AddItemHandler(0, Aloita);
+        valikko.AddItemHandler(1, null);
+        valikko.AddItemHandler(2, Exit);
+
     }
 
-
-    /// <summary>
-    /// Aloittaa uuden pelin
-    /// </summary> 
-    private void AloitaPeli()
-    {
-        LuoKentta();
-        LisaaNappaimet();
-        LuoKamera();
-        PähkinäLaskuri();
-    }
-
+    
     
     /// <summary>
     /// Luo Kameran ja alkaa siirtämään kameraa ylöspäin.
@@ -60,6 +57,19 @@ public class Oravan_pelastus : PhysicsGame
         Camera.ZoomFactor = 1;
         Camera.StayInLevel = true;
         Timer.SingleShot(5.0, delegate { Camera.Velocity = new Vector(0, 50); });
+        Timer onkoRuudulla = new Timer();
+        onkoRuudulla.Interval = 0.1;
+        onkoRuudulla.Start();
+        onkoRuudulla.Timeout += delegate
+            { if ((orava.Y - Camera.Y) < -450) Alusta(); };
+            
+
+
+
+        if ((orava.Y - Camera.Y) < -500)
+        {
+            Alusta();
+        }
     }
 
 
@@ -67,7 +77,8 @@ public class Oravan_pelastus : PhysicsGame
     /// Luo pelimaailman ja viholliset sekä aloittaa taustamusiikin.
     /// </summary>
     private void LuoKentta()
-    {
+    {        
+
         MediaPlayer.Play("taustamusiikki");
         MediaPlayer.IsRepeating = true;
         Gravity = new Vector(0, -1000);
@@ -180,7 +191,6 @@ public class Oravan_pelastus : PhysicsGame
         {
             Shape = Shape.Circle,
             Position = paikka,
-            Mass = 4.0,
             Image = LoadImage("lepakko"),
             Tag = "vihollinen"
         };
@@ -207,7 +217,7 @@ public class Oravan_pelastus : PhysicsGame
     /// <param name="korkeus">pähkinän korkeus</param>
     private void LuoPahkina(Vector paikka, double leveys, double korkeus)
     {
-        PhysicsObject pahkina = PhysicsObject.CreateStaticObject(leveys, korkeus);
+        PhysicsObject pahkina =  new PhysicsObject(leveys, korkeus);
         pahkina.Shape = Shape.Circle;
         pahkina.Position = paikka;
         pahkina.Image = LoadImage("pahkina.png");
@@ -240,23 +250,9 @@ public class Oravan_pelastus : PhysicsGame
         orava.Weapon.Image = LoadImage("tyhja_ase");
         orava.CollisionIgnoreGroup = 2;
         orava.Weapon.ProjectileCollision = Osuma;
-        if (orava.Position.Y < Level.Bottom)
-        {
-            Kuolema();
-        }
     }
 
     
-    /// <summary>
-    /// käsittelee pelaajan kuoleman ja luo tekstin ruudulle.
-    /// </summary>
-    private void Kuolema()
-    {
-        orava.Destroy();
-        MessageDisplay.Add("Hävisit pelin!");
-        Timer.SingleShot(5, Begin);
-    }
-
 
     /// <summary>
     /// käsittelee pelaajan ampuman ammuksen ja vihollisen osuman.
@@ -284,7 +280,7 @@ public class Oravan_pelastus : PhysicsGame
             int pMaara = 150;
             rajahdys.AddEffect(kohde.X, kohde.Y, pMaara);
             MessageDisplay.Add("Voitit pelin!");
-            Timer.SingleShot(5, Begin);
+            Timer.SingleShot(3, Begin);
         }
         else return;
     }
@@ -317,7 +313,7 @@ public class Oravan_pelastus : PhysicsGame
     {
         if (orava.Weapon.Ammo.Value == 0)
         {
-            Kuolema();
+            Alusta();
         }
         else
         {
@@ -365,6 +361,7 @@ public class Oravan_pelastus : PhysicsGame
         orava.Jump(nopeus);
     }
 
+
     /// <summary>
     /// Käsittelee pelaajan ja pähkinän törmäyksen.
     /// </summary>
@@ -395,5 +392,14 @@ public class Oravan_pelastus : PhysicsGame
         pisteNaytto.BindTo(pisteLaskuri);
         pisteNaytto.Title = "Pähkinöitä";
         Add(pisteNaytto);
+    }
+
+    private void Alusta()
+    {
+        orava.Destroy();
+        ClearGameObjects();
+        ClearTimers();
+        Camera.Reset();
+        Alkuvalikko();
     }
 }
