@@ -61,15 +61,7 @@ public class Oravan_pelastus : PhysicsGame
         onkoRuudulla.Interval = 0.1;
         onkoRuudulla.Start();
         onkoRuudulla.Timeout += delegate
-            { if ((orava.Y - Camera.Y) < -450) Alusta(); };
-            
-
-
-
-        if ((orava.Y - Camera.Y) < -500)
-        {
-            Alusta();
-        }
+            { if ((orava.Y - Camera.Y) < -450) Alusta(); };        
     }
 
 
