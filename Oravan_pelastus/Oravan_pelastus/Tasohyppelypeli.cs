@@ -23,8 +23,8 @@ public class Oravan_pelastus : PhysicsGame
     public override void Begin()
     {
         Alkuvalikko();
-        MediaPlayer.Play("taustamusiikki");
-        MediaPlayer.IsRepeating = true;
+       // MediaPlayer.Play("taustamusiikki");
+       // MediaPlayer.IsRepeating = true;
     }
 
 
@@ -42,7 +42,20 @@ public class Oravan_pelastus : PhysicsGame
         Add(valikko);
         valikko.AddItemHandler(0, Aloita);
         valikko.AddItemHandler(1, ParhaatPisteet);
-        valikko.AddItemHandler(2, Exit);        
+        valikko.AddItemHandler(2, Exit);
+    }
+            
+    
+    /// <summary>
+    /// Alustaa uuden pelin. Luo kentän, kameran, viholliset, laskurit ja näppäimet.
+    /// </summary>
+    private void Aloita()
+    {        
+        LuoKentta();
+        LisaaNappaimet();
+        LuoKamera();
+        LuoPähkinäLaskuri();
+        LuoPistelaskuri();
     }
 
 
@@ -55,19 +68,6 @@ public class Oravan_pelastus : PhysicsGame
         topLista.HighScoreWindow.Closed += delegate { Alkuvalikko(); };
     }
 
-
-    /// <summary>
-    /// Alustaa uuden pelin. Luo kentän, kameran, viholliset, laskurit ja näppäimet.
-    /// </summary>
-    private void Aloita()
-    {        
-        LuoKentta();
-        LisaaNappaimet();
-        LuoKamera();
-        LuoPähkinäLaskuri();
-        LuoPistelaskuri();
-    }     
-        
 
     /// <summary>
     /// Luo pisteet elossa olemisesta sekä asettaa näytön ruudulle.
@@ -304,7 +304,7 @@ public class Oravan_pelastus : PhysicsGame
             Explosion rajahdys = new Explosion(50);
             rajahdys.Position = kohde.Position;
             Add(rajahdys);
-            pisteLaskuri.Value += 5;
+            pisteLaskuri.Value += 20;
         }
         else if (kohde.Tag.ToString() == "pesa")
         {
@@ -316,8 +316,7 @@ public class Oravan_pelastus : PhysicsGame
             Add(rajahdys);
             int pMaara = 150;
             rajahdys.AddEffect(kohde.X, kohde.Y, pMaara);
-            MessageDisplay.Add("Voitit pelin!");
-            Timer.SingleShot(3, Begin);
+            Timer.SingleShot(3, Alusta);
             pisteLaskuri.Value += 300;
         }
         else return;        
@@ -368,7 +367,6 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     private void LisaaNappaimet()
     {
-        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Left, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", orava, -NOPEUS);
         Keyboard.Listen(Key.Right, ButtonState.Down, Liikuta, "Liikkuu oikealle", orava, NOPEUS);
@@ -411,7 +409,7 @@ public class Oravan_pelastus : PhysicsGame
         pahkina.Destroy();
         orava.Weapon.Ammo.Value += 2;
         AmmusLaskuri.Value += 2;
-        pisteLaskuri.Value += 10;
+        pisteLaskuri.Value += 20;
     }       
 
 
