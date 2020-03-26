@@ -13,36 +13,42 @@ public class Oravan_pelastus : PhysicsGame
     private const int RUUDUN_KOKO = 30; 
     private PlatformCharacter orava;
     private IntMeter AmmusLaskuri;
-    EasyHighScore topLista = new EasyHighScore();
     IntMeter pisteLaskuri;
-    MultiSelectWindow valikko;
+    EasyHighScore topLista = new EasyHighScore();
+    
 
-
+    /// <summary>
+    /// käynnistää alkuvalikon ja musiikin.
+    /// </summary>
     public override void Begin()
     {
         Alkuvalikko();
         MediaPlayer.Play("taustamusiikki");
         MediaPlayer.IsRepeating = true;
-
     }
 
 
     /// <summary>
-    /// alkuvalikko, josta voidaan aloittaa tai lopettaa peli.
+    /// Luo alkuvalikon ja sen ulkoasun.
     /// </summary>
     private void Alkuvalikko()
     {
-        Level.Background.Image = LoadImage("tausta");
-        Level.Background.ScaleToLevelFull();
+        ClearAll();
         MultiSelectWindow valikko = new MultiSelectWindow("",
             "Aloita uusi peli", "Parhaat pisteet", "Lopeta");
         valikko.Color = Color.JungleGreen;
+        Level.Background.Image = LoadImage("tausta");
+        Level.Background.ScaleToLevelFull();
         Add(valikko);
         valikko.AddItemHandler(0, Aloita);
         valikko.AddItemHandler(1, ParhaatPisteet);
         valikko.AddItemHandler(2, Exit);        
     }
 
+
+    /// <summary>
+    /// Näyttää parhaat pisteet
+    /// </summary>
     private void ParhaatPisteet()
     {
         topLista.Show();
@@ -50,40 +56,46 @@ public class Oravan_pelastus : PhysicsGame
     }
 
 
+    /// <summary>
+    /// Alustaa uuden pelin. Luo kentän, kameran, viholliset, laskurit ja näppäimet.
+    /// </summary>
     private void Aloita()
     {        
         LuoKentta();
         LisaaNappaimet();
         LuoKamera();
-        PähkinäLaskuri();
+        LuoPähkinäLaskuri();
+        LuoPistelaskuri();
+    }     
+        
 
+    /// <summary>
+    /// Luo pisteet elossa olemisesta sekä asettaa näytön ruudulle.
+    /// </summary>
+    private void LuoPistelaskuri()
+    {
         pisteLaskuri = new IntMeter(0);
         Timer SelviytymisPisteet = new Timer();
         SelviytymisPisteet.Interval = 1;
         SelviytymisPisteet.Start();
         SelviytymisPisteet.Timeout += LisaaPiste;
-            void LisaaPiste()
-        {
+        void LisaaPiste()
+        { 
             pisteLaskuri.Value += 1;
         }
         Label pisteNaytto = new Label();
         pisteNaytto.Title = "Pisteet";
         pisteNaytto.X = Screen.Right - 100;
-        pisteNaytto.Y = Screen.Top - 20;
+        pisteNaytto.Y = Screen.Top - 50;
         pisteNaytto.TextColor = Color.White;
         pisteNaytto.Color = Color.DarkJungleGreen;
         pisteNaytto.BindTo(pisteLaskuri);
         Add(pisteNaytto);
     }
 
-       
 
-
-
-
-    
     /// <summary>
-    /// Luo Kameran ja alkaa siirtämään kameraa ylöspäin.
+    /// Luo Kameran ja alkaa siirtämään kameraa ylöspäin. Lopettaa pelin jos pelaaja on liian pitkään poissa näkyvistä.
     /// </summary>
     private void LuoKamera()
     {
@@ -102,7 +114,7 @@ public class Oravan_pelastus : PhysicsGame
 
 
     /// <summary>
-    /// Luo pelimaailman ja viholliset sekä aloittaa taustamusiikin.
+    /// Luo pelimaailman ja viholliset.
     /// </summary>
     private void LuoKentta()
     {
@@ -252,7 +264,7 @@ public class Oravan_pelastus : PhysicsGame
 
 
     /// <summary>
-    /// Luo pelihahmon ja asettaa sille aseen.
+    /// Luo pelihahmon ja asettaa aseen.
     /// </summary>
     /// <param name="paikka">pelaajan paikka pelimaailmassa</param>
     /// <param name="leveys">pelaajan leveys</param>
@@ -276,11 +288,10 @@ public class Oravan_pelastus : PhysicsGame
         orava.CollisionIgnoreGroup = 2;
         orava.Weapon.ProjectileCollision = Osuma;
     }
-
-    
+        
 
     /// <summary>
-    /// käsittelee pelaajan ampuman ammuksen ja vihollisen osuman.
+    /// käsittelee ammuksen ja vihollisen osuman.
     /// </summary>
     /// <param name="ammus">ammuttu panos</param>
     /// <param name="kohde">osuman saanut vihollinen</param>
@@ -309,8 +320,7 @@ public class Oravan_pelastus : PhysicsGame
             Timer.SingleShot(3, Begin);
             pisteLaskuri.Value += 300;
         }
-        else return;
-        
+        else return;        
     }
 
 
@@ -345,7 +355,6 @@ public class Oravan_pelastus : PhysicsGame
         }
         else
         {
-            MessageDisplay.Add("menetit kaikki pähkinät!");
             AmmusLaskuri.Value = 0;
             orava.Weapon.Ammo.Value = 0;
             SoundEffect osuma = LoadSoundEffect("hit.wav");
@@ -399,7 +408,6 @@ public class Oravan_pelastus : PhysicsGame
     {
         SoundEffect kerays = LoadSoundEffect("collect1.wav");
         kerays.Play();
-        MessageDisplay.Add("Sait kaksi uutta pähkinää");
         pahkina.Destroy();
         orava.Weapon.Ammo.Value += 2;
         AmmusLaskuri.Value += 2;
@@ -410,11 +418,11 @@ public class Oravan_pelastus : PhysicsGame
     /// <summary>
     /// Luo uuden laskurin joka näyttää pelaajalle pähkinöiden määrän ruudulla.
     /// </summary>
-    private void PähkinäLaskuri()
+    private void LuoPähkinäLaskuri()
     {
         AmmusLaskuri = new IntMeter(2);
         Label pisteNaytto = new Label();
-        pisteNaytto.X = Screen.Right - 100;
+        pisteNaytto.X = Screen.Left + 100;
         pisteNaytto.Y = Screen.Top - 50;
         pisteNaytto.TextColor = Color.White;
         pisteNaytto.Color = Color.DarkJungleGreen;
@@ -423,6 +431,10 @@ public class Oravan_pelastus : PhysicsGame
         Add(pisteNaytto);
     }
 
+
+    /// <summary>
+    /// Poistaa Luodut oliot ja käynnistää Parhaat pisteet taulukon jos pisteet yltävät listalle.
+    /// </summary>
     private void Alusta()
     {
         orava.Destroy();
