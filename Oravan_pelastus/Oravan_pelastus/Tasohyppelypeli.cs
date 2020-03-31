@@ -6,13 +6,18 @@ using Jypeli.Controls;
 using Jypeli.Widgets;
 using Jypeli.Effects;
 
+///@author Jovan Karmakka
+///@version 2020
+/// <summary>
+/// Ohjelmointi 1 kurssin harjoitustyö.
+/// </summary>
 public class Oravan_pelastus : PhysicsGame
 {
     private const double NOPEUS = 200;
     private const double HYPPYNOPEUS = 750; 
     private const int RUUDUN_KOKO = 30; 
     private PlatformCharacter orava;
-    private IntMeter AmmusLaskuri;
+    IntMeter AmmusLaskuri;
     IntMeter pisteLaskuri;
     EasyHighScore topLista = new EasyHighScore();
     
@@ -23,8 +28,8 @@ public class Oravan_pelastus : PhysicsGame
     public override void Begin()
     {
         Alkuvalikko();
-       // MediaPlayer.Play("taustamusiikki");
-       // MediaPlayer.IsRepeating = true;
+        MediaPlayer.Play("taustamusiikki");
+        MediaPlayer.IsRepeating = true;
     }
 
 
@@ -443,3 +448,7 @@ public class Oravan_pelastus : PhysicsGame
         topLista.HighScoreWindow.Closed += delegate { Alkuvalikko(); };
     }
 }
+
+
+// Taulukko = https://tim.jyu.fi/answers/kurssit/tie/ohj1/2020k/demot/demo6?answerNumber=16&task=miidijaetsilahin&user=jrkarmau
+// Funktio = https://tim.jyu.fi/answers/kurssit/tie/ohj1/2020k/demot/demo6?answerNumber=6&task=itseisarvo&user=jrkarmau
