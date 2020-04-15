@@ -29,6 +29,7 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     public override void Begin()
     {
+        //IsFullScreen = true;  //Asettaa pelin Kokoruudun kokoiseksi//
         Alkuvalikko();
         MediaPlayer.Play("taustamusiikki");
         MediaPlayer.IsRepeating = true;
@@ -40,7 +41,7 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     private void Alkuvalikko()
     {
-        ClearAll();
+        ClearAll();        
         MultiSelectWindow valikko = new MultiSelectWindow("",
             "Aloita uusi peli", "Parhaat pisteet", "Lopeta");
         valikko.Color = Color.JungleGreen;
@@ -106,17 +107,16 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     private void LuoKamera()
     {
-        IsFullScreen = true;
         Camera.Position = orava.Position;
         Camera.FollowX(orava);
         Camera.ZoomFactor = 1;
         Camera.StayInLevel = true;
-        Timer.SingleShot(5.0, delegate { Camera.Velocity = new Vector(0, 50); });
+        Timer.SingleShot(7.0, delegate { Camera.Velocity = new Vector(0, 50); });
         Timer onkoRuudulla = new Timer();
         onkoRuudulla.Interval = 0.1;
         onkoRuudulla.Start();
         onkoRuudulla.Timeout += delegate
-            { if ((orava.Y - Camera.Y) < -450) Alusta(); };        
+            { if ((orava.Y - Camera.Y) < -500) Alusta(); };        
     }
 
 

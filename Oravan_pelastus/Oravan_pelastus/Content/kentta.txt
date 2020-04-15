@@ -32,7 +32,7 @@
 @                    cccccccc           ccc        @
 @               p                 c                @
 @    ccccc     cc                         ccccccc  @
-@                            ccc      s            @
+@c                            ccc      s           @
 @            ccccccccc                             @
 @       s                                 c    ccc @
 @ccc            c       cc         cccc            @
@@ -190,9 +190,9 @@
 @     aaaaaaaaaaaaaaa                              @
 @                                        k    aa   @
 @aaa   s                     aaaa     aaa          @
-@                             p          aaaaaa    @
-@  aa     aaa     o   aaaaaaaaaaaaaa               @
+@                        o     p          aaaaaa   @
+@  aa     aaa     p    aaaaaaaaaaaaaa              @
 @      p        aaa                              aa@
 @      aaa              aa     aa       aaaa       @
-@  m                                               @
+@                                                  @
 @##################################################@
