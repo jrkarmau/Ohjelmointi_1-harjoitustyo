@@ -37,9 +37,9 @@
 @       s                                 c    ccc @
 @ccc            c       cc         cccc            @
 @        ccc              m                        @
-@                 ccccccccccccccccccccccccc       c@
-@    p                                      cc     @
-@cccccc       ccc               ccc              cc@
+@                 ccccccccccccccccccccccccc        @
+@    p                                             @
+@cccccc       ccc               ccc           ccccc@
 @                       ccc                    s   @
 @                 m                s     cccc      @
 @  s  ccccccccccccccccccccccccc                  c @
@@ -50,14 +50,14 @@
 @        c    ccccccccccccccccccccccccccc         c@
 @  bbb        ccccccccccccccccccccccccccc          @
 @         s                                  bbb   @
-@                   s      bbb                     @
+@                   s                              @
 @    cccccccccc                         p      s   @
 @                   cccc         cccccccccc        @
 @                                                 c@
 @        ccc    bbb         cc                     @
 @                                                  @
 @cc s              s  ccccccc        bbb        ccc@
-@ p     m                                          @
+@ p     m   p                                      @
 @cccccccccccc                                s     @
 @                          bbb      p              @
 @                 bbb             cccccccc         @
@@ -79,7 +79,7 @@
 @          b                                 bbbbbb@
 @             p               bbb     k b          @
 @bbb         bbb       k                           @
-@bbb    b                          m               @
+@bbb    b                    p     m               @
 @    k               bb    bbbbbbbbbbbbbbbbb   bbbb@
 @           bbbb                                   @
 @                                            bbb   @
@@ -96,11 +96,11 @@
 @     k                  bb k                      @
 @   p         m                     bbb            @
 @   bbbbbbbbbbbbbbbbbbbbbbbbbb                     @
-@                                            bbbbbb@
+@                                            bbbb  @
 @b        bbb                     bbb              @
 @  b      bbb         bbb                k         @
-@                                p           aaaaaa@
-@  k     bbbbbbbbbb           bbbbb                @
+@                                p             aaaa@
+@  k     bbbbbbbbbb             bbbb               @
 @bb                                                @
 @              k       bb              bb          @
 @bbbb                                        bbbbbb@
@@ -115,12 +115,12 @@
 @bbbbb                               b    bbbbbbbbb@
 @            s                            k        @
 @     p           bbbbbbbb      aaaa               @
-@ bbbbbbbbb                                p       @
+@ bbbbbbb                                  p       @
 @             b              b      bbbbbbbb       @
 @      p           bbbb    k                       @
 @    aaaaaaa                    bbb                @
 @                b                          p      @
-@   k                bbbbbbbbb            aaaaaaaaa@
+@   k                 bbbbbbbb            aaaaaaaaa@
 @           bbb                                    @
 @bbbbbb                           bbb              @
 @                   aaaa                    m      @
@@ -128,7 +128,7 @@
 @ b               p         aaaaaaa                @
 @        k       bbbbbbb                           @
 @bbbbb                    s                  k     @
-@       bb                          bbbbbbbb       @
+@       bb                          bbbbbb         @
 @              bbb       aaaaa                     @
 @                        aaaaa                     @
 @aa       aaaaa      bb              aaaaaaa    bb @
@@ -147,9 +147,9 @@
 @      a        aaaaaaaaaaaaa                     p@
 @      p                        aaa      aaa     aa@
 @     aaa    a    aaa     aa                       @
-@aaa                                    aa         @
+@aaa                                    aa      aaa@
 @            aaa          aaa    aa                @
-@          p          p              aaa      aaaaa@
+@          p          p              aaa           @
 @  aa     aaa        aaa                      aaaaa@
 @                            aaa                   @
 @      aaa      aaa     aa          a    aaa      a@
@@ -165,7 +165,7 @@
 @                                     aa         aa@
 @aaaaaaa     k     m         m                     @
 @             aaaaaaaaaaaaaaaaaaaaaaa       k      @
-@                                                p @
+@     aaa                                        p @
 @a                                       aaa       @
 @          p        aa             aaa             @
 @       aaaaaa            aaaa                 aaaa@
@@ -175,9 +175,9 @@
 @aaaaa      p               aaa      aaaa          @
 @aaaaa     aa                                    aa@
 @                   aaaa      p                 p  @
-@        aa               aa      aaa     aaaa     @
+@        aa               aa      aaa       a      @
 @aa      k               m                         @
-@                aaaaaaaaaaaaaaaa          aaa     @
+@                aaaaaaaaaaaaaaaa          aaaaa   @
 @aaa                                 aa k          @
 @      aa     aaa                                 a@
 @   p             aaaaa        aaaa         m      @

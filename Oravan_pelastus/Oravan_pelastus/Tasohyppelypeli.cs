@@ -7,10 +7,12 @@ using Jypeli.Widgets;
 using Jypeli.Effects;
 
 ///@author Jovan Karmakka
-///@version 2020
+///@version 1 2020
 /// <summary>
 /// Ohjelmointi 1 kurssin harjoitustyö.
 /// </summary>
+
+
 public class Oravan_pelastus : PhysicsGame
 {
     private const double NOPEUS = 200;
@@ -104,7 +106,7 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     private void LuoKamera()
     {
-        //IsFullScreen = true;
+        IsFullScreen = true;
         Camera.Position = orava.Position;
         Camera.FollowX(orava);
         Camera.ZoomFactor = 1;
