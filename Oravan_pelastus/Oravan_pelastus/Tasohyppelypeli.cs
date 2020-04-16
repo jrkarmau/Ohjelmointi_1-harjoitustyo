@@ -441,6 +441,11 @@ public class Oravan_pelastus : PhysicsGame
     }
 
 
+    /// <summary>
+    /// Laskee osumistarkkuuden annetusta listasta.
+    /// </summary>
+    /// <param name="osumat">lista tapahtumista</param>
+    /// <returns>palauttaa osumistarkkuuden</returns>
     private double LaskeTarkkuus(List<int> osumat)
     {
         if (osumat.Count == 0)
@@ -480,8 +485,9 @@ public class Oravan_pelastus : PhysicsGame
         Label tekstikentta = new Label("Ampumistarkkuutesi oli:  " + tarkkuus + "  %");
         tekstikentta.TextColor = Color.White;
         Add(tekstikentta);        
-        Timer.SingleShot(5.0, Loppuvalikko );
+        Timer.SingleShot(5.0, Loppuvalikko ); 
     }
+
         
     /// <summary>
     /// Näyttää pääsitkö parhaisiin pisteisiin ja palaa alkuvvalikkoon.
@@ -493,5 +499,6 @@ public class Oravan_pelastus : PhysicsGame
         topLista.EnterAndShow(pisteLaskuri.Value);
         topLista.HighScoreWindow.Closed += delegate { Alkuvalikko(); };
     }
+
 
 }
