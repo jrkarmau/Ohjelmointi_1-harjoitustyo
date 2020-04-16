@@ -22,6 +22,7 @@ public class Oravan_pelastus : PhysicsGame
     IntMeter AmmusLaskuri;
     IntMeter pisteLaskuri;
     EasyHighScore topLista = new EasyHighScore();
+    List<int> osumat = new List<int>();
     
 
     /// <summary>
@@ -29,7 +30,7 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     public override void Begin()
     {
-        //IsFullScreen = true;  //Asettaa pelin Kokoruudun kokoiseksi//
+        //IsFullScreen = true;  //Asettaa pelin Kokoruudun kokoiseksi
         Alkuvalikko();
         MediaPlayer.Play("taustamusiikki");
         MediaPlayer.IsRepeating = true;
@@ -312,6 +313,7 @@ public class Oravan_pelastus : PhysicsGame
             rajahdys.Position = kohde.Position;
             Add(rajahdys);
             pisteLaskuri.Value += 20;
+            osumat.Add(1);  
         }
         else if (kohde.Tag.ToString() == "pesa")
         {
@@ -325,6 +327,7 @@ public class Oravan_pelastus : PhysicsGame
             rajahdys.AddEffect(kohde.X, kohde.Y, pMaara);
             Timer.SingleShot(3, Alusta);
             pisteLaskuri.Value += 300;
+            osumat.Add(1);
         }
         else return;        
     }
@@ -344,6 +347,7 @@ public class Oravan_pelastus : PhysicsGame
             ammus.MaximumLifetime = TimeSpan.FromSeconds(5.0);
             ammus.Tag = "ammus";
             AmmusLaskuri.Value -= 1;
+            osumat.Add(0);
         }
     }
 
@@ -437,8 +441,33 @@ public class Oravan_pelastus : PhysicsGame
     }
 
 
+    private double LaskeTarkkuus(List<int> osumat)
+    {
+        if (osumat.Count == 0)
+        {
+            return 0;
+        }
+        double laukaukset = 0.00;
+        double osuttu = 0.00;
+
+        foreach (var merkinta in osumat)
+        {
+            if (merkinta == 0)
+            {
+                laukaukset++;
+            }
+            else if (merkinta == 1)
+            {
+                osuttu++;
+            }
+        }
+        return osuttu/laukaukset*100;
+
+    }
+
+
     /// <summary>
-    /// Poistaa Luodut oliot ja käynnistää Parhaat pisteet taulukon jos pisteet yltävät listalle.
+    /// Poistaa Luodut oliot ja näyttää ampumistarkkuutesi.
     /// </summary>
     private void Alusta()
     {
@@ -446,11 +475,23 @@ public class Oravan_pelastus : PhysicsGame
         ClearGameObjects();
         ClearTimers();
         Camera.Reset();
+        double tarkkuus = LaskeTarkkuus(osumat);
+        tarkkuus = Math.Round(tarkkuus, 2);
+        Label tekstikentta = new Label("Ampumistarkkuutesi oli:  " + tarkkuus + "  %");
+        tekstikentta.TextColor = Color.White;
+        Add(tekstikentta);        
+        Timer.SingleShot(5.0, Loppuvalikko );
+    }
+        
+    /// <summary>
+    /// Näyttää pääsitkö parhaisiin pisteisiin ja palaa alkuvvalikkoon.
+    /// </summary>
+    private void Loppuvalikko()
+    {
+        ClearGameObjects();
+        osumat.Clear();
         topLista.EnterAndShow(pisteLaskuri.Value);
         topLista.HighScoreWindow.Closed += delegate { Alkuvalikko(); };
     }
+
 }
-
-
-// Taulukko = https://tim.jyu.fi/answers/kurssit/tie/ohj1/2020k/demot/demo6?answerNumber=16&task=miidijaetsilahin&user=jrkarmau
-// Funktio = https://tim.jyu.fi/answers/kurssit/tie/ohj1/2020k/demot/demo6?answerNumber=6&task=itseisarvo&user=jrkarmau
