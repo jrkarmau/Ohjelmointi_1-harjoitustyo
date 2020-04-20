@@ -11,15 +11,13 @@ using Jypeli.Effects;
 /// <summary>
 /// Ohjelmointi 1 kurssin harjoitustyö.
 /// </summary>
-
-
 public class Oravan_pelastus : PhysicsGame
 {
     private const double NOPEUS = 200;
     private const double HYPPYNOPEUS = 750; 
     private const int RUUDUN_KOKO = 30; 
     private PlatformCharacter orava;
-    IntMeter AmmusLaskuri;
+    IntMeter ammusLaskuri;
     IntMeter pisteLaskuri;
     EasyHighScore topLista = new EasyHighScore();
     List<int> osumat = new List<int>();
@@ -84,10 +82,10 @@ public class Oravan_pelastus : PhysicsGame
     private void LuoPistelaskuri()
     {
         pisteLaskuri = new IntMeter(0);
-        Timer SelviytymisPisteet = new Timer();
-        SelviytymisPisteet.Interval = 1;
-        SelviytymisPisteet.Start();
-        SelviytymisPisteet.Timeout += LisaaPiste;
+        Timer selviytymisPisteet = new Timer();
+        selviytymisPisteet.Interval = 1;
+        selviytymisPisteet.Start();
+        selviytymisPisteet.Timeout += LisaaPiste;
         void LisaaPiste()
         { 
             pisteLaskuri.Value += 1;
@@ -130,7 +128,7 @@ public class Oravan_pelastus : PhysicsGame
         TileMap kentta = TileMap.FromLevelAsset("kentta.txt");
         char[] tasot = { '#', 'a', 'b', 'c', '@', 't' };
         for (int i = 0; i < tasot.Length; i++)
-            { kentta.SetTileMethod(tasot[i], LisaaTaso, tasot[i]); }
+            kentta.SetTileMethod(tasot[i], LisaaTaso, tasot[i]); 
         kentta.SetTileMethod('k', LuoKorppi);
         kentta.SetTileMethod('p', LuoPahkina);
         kentta.SetTileMethod('o', LuoOrava);
@@ -329,7 +327,7 @@ public class Oravan_pelastus : PhysicsGame
             pisteLaskuri.Value += 300;
             osumat.Add(1);
         }
-        else return;        
+        //else return;        
     }
 
 
@@ -346,7 +344,7 @@ public class Oravan_pelastus : PhysicsGame
             ammus.Image = LoadImage("acorn");
             ammus.MaximumLifetime = TimeSpan.FromSeconds(5.0);
             ammus.Tag = "ammus";
-            AmmusLaskuri.Value -= 1;
+            ammusLaskuri.Value -= 1;
             osumat.Add(0);
         }
     }
@@ -365,7 +363,7 @@ public class Oravan_pelastus : PhysicsGame
         }
         else
         {
-            AmmusLaskuri.Value = 0;
+            ammusLaskuri.Value = 0;
             orava.Weapon.Ammo.Value = 0;
             SoundEffect osuma = LoadSoundEffect("hit.wav");
             osuma.Play();
@@ -419,7 +417,7 @@ public class Oravan_pelastus : PhysicsGame
         kerays.Play();
         pahkina.Destroy();
         orava.Weapon.Ammo.Value += 2;
-        AmmusLaskuri.Value += 2;
+        ammusLaskuri.Value += 2;
         pisteLaskuri.Value += 20;
     }       
 
@@ -429,13 +427,13 @@ public class Oravan_pelastus : PhysicsGame
     /// </summary>
     private void LuoPähkinäLaskuri()
     {
-        AmmusLaskuri = new IntMeter(2);
+        ammusLaskuri = new IntMeter(2);
         Label pisteNaytto = new Label();
         pisteNaytto.X = Screen.Left + 100;
         pisteNaytto.Y = Screen.Top - 50;
         pisteNaytto.TextColor = Color.White;
         pisteNaytto.Color = Color.DarkJungleGreen;
-        pisteNaytto.BindTo(AmmusLaskuri);
+        pisteNaytto.BindTo(ammusLaskuri);
         pisteNaytto.Title = "Pähkinöitä";
         Add(pisteNaytto);
     }
