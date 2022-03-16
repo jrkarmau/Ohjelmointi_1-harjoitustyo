@@ -1,6 +1,6 @@
 ## Jyväskylän yliopiston ohjelmointi 1 -kurssin harjoitustyö.
 
-Tehtävänäsi on kiivetä oranssilla oravalla puun latvaan ja tuhota linnunpesä. Matkasi vie läpi oksien aina pilviin
+Tehtävänäsi on kiivetä oranssilla oravalla puunlatvaan ja tuhota linnunpesä. Matkasi vie läpi oksien aina pilviin
 saakka kunnes huipulta löydät vihollisesi alkulähteen. Matkaasi yrittää estää niin lepakot, harakat kuin muurahaisetkin.
 Onneksi aseenasi on keräämäsi pähkinät joita voit heitellä
 
