@@ -9,7 +9,7 @@ Onneksi aseenasi on keräämäsi pähkinät joita voit heitellä
 To play this game you need to install Jypeli https://github.com/Jypeli-JYU/Jypeli 
 and .NET Core 3.1 or newer https://dotnet.microsoft.com/en-us/download/dotnet/3.1.
 
-Still I cannot guarantee this will work on other computer than mine. Here is awesome gameplay videos so you don't have to leave empthy handed:
+I cannot guarantee this will work on other computer than mine. Here is awesome gameplay videos so you don't have to leave empthy handed:
 (Game playing experience is a lot smoother than shown in these gifs.)
 
 
